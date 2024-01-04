@@ -1,0 +1,45 @@
+
+ .timer {
+     text-align: center;
+     font-family: Arial, sans-serif;
+     font-size: 1.4em;
+     letter-spacing: -1px;
+ }
+
+ .timer span {
+     font-size: 2em;
+     margin: 0 3px 0 15px;
+ }
+ 
+ .body{
+    background-color: whitesmoke;
+    border: solid black;
+    border-radius: 10px;
+ }
+
+ #btn1{
+     margin: 0 3px 0 25px;;
+     position: absolute;
+     top: 35%;
+     left: 40%;
+ }
+
+ #btn2{
+     margin: 0 3px 0 75px;
+     position: absolute;
+     top: 35%;
+     left: 40%;
+ }
+
+  #btn3 {
+      margin: 0 3px 0 145px;
+      position: absolute;
+      top: 35%;
+      left: 40%;
+  }
+
+ #btn1:hover,#btn2:hover,#btn3:hover{
+    scale:105%;
+    background-color: rgb(142, 142, 255);
+    color: whitesmoke;
+}
