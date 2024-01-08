@@ -10,6 +10,7 @@ import { Subscription, interval } from 'rxjs';
 })
 export class CountDownComponent implements OnInit, OnDestroy {
   private subscription!: Subscription;
+  private startTime: number = 0;
 
   public countdownDuration = 5 * 60;
   public remainingTime = this.countdownDuration;
@@ -18,15 +19,13 @@ export class CountDownComponent implements OnInit, OnDestroy {
   public minutesToDday!: number;
   public secondsToDday!: number;
 
-  private getTimeUnits() {
-    this.minutesToDday = Math.floor(this.remainingTime / 60);
-    this.secondsToDday = this.remainingTime % 60;
-  }
-
   private startCountdown() {
+    this.startTime = Date.now();
+
     this.subscription = interval(1000).subscribe(() => {
       if (!this.isPaused) {
-        this.remainingTime--;
+        const elapsedTime = Math.floor((Date.now() - this.startTime) / 1000);
+        this.remainingTime = Math.max(0, this.countdownDuration - elapsedTime);
         this.getTimeUnits();
 
         if (this.remainingTime <= 0) {
@@ -37,6 +36,11 @@ export class CountDownComponent implements OnInit, OnDestroy {
   }
 
   startTimer() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+
+    this.isPaused = false;
     this.remainingTime = this.countdownDuration;
     this.startCountdown();
   }
@@ -47,6 +51,8 @@ export class CountDownComponent implements OnInit, OnDestroy {
 
   resumeTimer() {
     this.isPaused = false;
+    this.startTime =
+      Date.now() - (this.countdownDuration - this.remainingTime) * 1000;
   }
 
   resetTimer() {
@@ -60,6 +66,11 @@ export class CountDownComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  private getTimeUnits() {
+    this.minutesToDday = Math.floor(this.remainingTime / 60);
+    this.secondsToDday = this.remainingTime % 60;
   }
 
   ngOnInit() {
